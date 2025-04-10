@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Total Expense: ₹{{ total_expense }}</h2>
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+            <tr>
+                <td>₹{{ expense.amount }}</td>
+                <td>{{ expense.date }}</td>
+                <td>{{ expense.Category.category_name }}</td>
+                <td>{{ expense.description }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">No expenses found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

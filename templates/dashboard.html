@@ -2,44 +2,113 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-
     <title>Dashboard</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background-color: #1e293b;
+            color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 20px 10px;
+        }
+
+        .sidebar h2 {
             text-align: center;
-            margin-top: 50px;
+            margin-bottom: 30px;
         }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            background: #f4f4f4;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #28a745;
-        }
-        a {
+
+        .sidebar a {
             display: block;
-            margin-top: 20px;
-            color: #007bff;
+            color: white;
+            padding: 10px 20px;
             text-decoration: none;
+            margin-bottom: 10px;
+            border-radius: 5px;
         }
+
+        .sidebar a:hover {
+            background-color: #334155;
+        }
+
+        .main-content {
+            margin-left: 240px;
+            padding: 20px;
+        }
+
+        .welcome {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .card {
+            flex: 1 1 200px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #1e293b;
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Welcome, {{ user_name }}!</h1>
-        <p>You have successfully logged in.</p>
-        <a href="/logout/">Logout</a>
+<div class="sidebar">
+    <h2>Menu</h2>
+    <a href="{% url 'add_income' %}">Add Income</a>
+    <a href="{% url 'add_expense' %}">Add Expense</a>
+    <a href="{% url 'add_category' %}">Add Category</a>
+    <a href="{% url 'display_income' %}">View Income</a>
+    <a href="{% url 'display_expense' %}">View Expense</a>
+    <a href="{% url 'display_budget' %}">View Budget</a>
+    <a href="{% url 'create_budget' %}">Create Budget</a>
+    
+
+</div>
+
+<div class="main-content">
+    <div class="welcome">Welcome {{ user_name }}!</div>
+
+    <div class="card-container">
+        <div class="card">
+            <h3>Add Income</h3>
+        </div>
+        <div class="card">
+            <h3>Add Expense</h3>
+        </div>
+        <div class="card">
+            <h3>Track Budget</h3>
+        </div>
+        <div class="card">
+            <h3>Set Goals</h3>
+        </div>
+        <div class="card">
+            <h3>View Notifications</h3>
+        </div>
     </div>
+</div>
 
 </body>
 </html>

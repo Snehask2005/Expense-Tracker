@@ -1,0 +1,14 @@
+<h2>Add Custom Category</h2>
+<form method="post">
+  {% csrf_token %}
+  <label>Category Name:</label>
+  <input type="text" name="category_name" required><br><br>
+
+  <label>Category Type:</label>
+  <select name="category_type" required>
+    <option value="expense">Expense</option>
+    <option value="income">Income</option>
+  </select><br><br>
+
+  <button type="submit">Add Category</button>
+</form>

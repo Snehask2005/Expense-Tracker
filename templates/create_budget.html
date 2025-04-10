@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Create a New Budget</h2>
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+            <label for="category">Category</label>
+            <select name="category" class="form-control" required>
+                <option value="" disabled selected>Select a category</option>
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.category_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="amount">Amount (₹)</label>
+            <input type="number" step="0.01" class="form-control" name="amount" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="period_type">Period</label>
+            <select class="form-control" name="period_type" required>
+                <option value="monthly">Monthly</option>
+                <option value="weekly">Weekly</option>
+                <option value="custom">Custom</option>
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="start_date">Start Date</label>
+            <input type="date" class="form-control" name="start_date" required>
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="end_date">End Date</label>
+            <input type="date" class="form-control" name="end_date" required>
+        </div>
+
+        <div class="form-check mb-2">
+            <input type="checkbox" class="form-check-input" name="is_recurring">
+            <label class="form-check-label" for="is_recurring">Recurring</label>
+        </div>
+
+        <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" name="freeze_on_exceed">
+            <label class="form-check-label" for="freeze_on_exceed">Freeze on Exceed</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Budget</button>
+    </form>
+</div>
+{% endblock %}

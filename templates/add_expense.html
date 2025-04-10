@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add Expense</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .form-container h2 {
+      text-align: center;
+    }
+
+    input, select, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+    }
+
+    .add-category-btn {
+      background-color: #007bff;
+      margin-top: 10px;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 25%;
+      left: 50%;
+      transform: translate(-50%, -25%);
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      z-index: 1000;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .modal input {
+      margin-bottom: 10px;
+    }
+
+    .modal button {
+      margin-top: 5px;
+    }
+
+    .modal-close {
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Add Expense</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <label for="amount">Amount:</label>
+      <input type="number" name="amount" step="0.01" required>
+
+      <label for="date">Date:</label>
+      <input type="date" name="date" required>
+
+      <label for="category">Category:</label>
+      <select name="category" id="category" required>
+        <option value="" disabled selected>Choose a category</option>
+            {% for cat in categories %}
+                <option value="{{ cat.id }}">{{ cat.category_name }}</option>
+            {% endfor %}
+      </select>
+
+
+      <button type="button" class="add-category-btn" onclick="openModal()">+ Add Category</button>
+
+      <label for="description">Description:</label>
+      <textarea name="description" rows="3"></textarea>
+
+      <label for="recurring_flag">Recurring:</label>
+      <select name="recurring_flag">
+        <option value="False">No</option>
+        <option value="True">Yes</option>
+      </select>
+
+      <button type="submit">Add Expense</button>
+    </form>
+  </div>
+
+  <!-- Category Modal -->
+<div id="categoryModal" class="modal">
+    <form method="POST" action="{% url 'add_category' %}">
+      {% csrf_token %}
+      <label for="category_name">New Category:</label>
+      <input type="text" name="category_name" placeholder="Enter category name" required>
+  
+      <!-- Add this hidden field for category_type -->
+      <input type="hidden" name="category_type" value="expense">
+  
+      <button type="submit">Add</button>
+      <button type="button" class="modal-close" onclick="closeModal()">Close</button>
+    </form>
+  </div>
+  
+
+  <script>
+    function openModal() {
+      document.getElementById("categoryModal").style.display = "block";
+    }
+    function closeModal() {
+      document.getElementById("categoryModal").style.display = "none";
+    }
+  </script>
+</body>
+</html>

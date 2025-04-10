@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Your Budgets</h2>
+
+    <div class="row">
+        {% for budget in budgets %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ budget.category.name }}</h5>
+                    <p class="card-text">
+                        <strong>Amount:</strong> ₹{{ budget.amount }}<br>
+                        <strong>Period:</strong> {{ budget.period_type|capfirst }}<br>
+                        <strong>Start Date:</strong> {{ budget.start_date }}<br>
+                        <strong>End Date:</strong> {{ budget.end_date }}<br>
+                        <strong>Recurring:</strong> {{ budget.is_recurring|yesno:"Yes,No" }}<br>
+                        <strong>Freeze on Exceed:</strong> {{ budget.freeze_on_exceed|yesno:"Yes,No" }}
+                        <p>Total Spent: {{ budget.total_spent }}</p>
+                        <p>Percentage Spent: {{ budget.percentage_spent }}%</p>
+                        <hr>
+                    </p>
+
+                    <div class="progress mb-2">
+                        {% for budget in budgets %}
+                            <div class="progress-bar {% if budget.is_exceeded %}bg-danger{% elif budget.is_near_limit %}bg-warning{% else %}bg-success{% endif %}"
+                                role="progressbar" style="width: {{ budget.percentage_spent|floatformat:1 }}%" aria-valuenow="{{ budget.percentage_spent|floatformat:1 }}" aria-valuemin="0" aria-valuemax="100">
+                                {{ budget.percentage_spent|floatformat:1 }}%
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <p><strong>Spent:</strong> ₹{{ budget.total_spent }}<br>
+                    <strong>Remaining:</strong> ₹{{ budget.remaining }}</p>
+
+                    {% if budget.is_exceeded %}
+                        <span class="badge bg-danger">Budget Exceeded</span>
+                    {% elif budget.is_near_limit %}
+                        <span class="badge bg-warning text-dark">Near Limit</span>
+                    {% else %}
+                        <span class="badge bg-success">On Track</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No budgets set yet. <a href="/add-budget/">Add a budget</a></p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.card {
+    border-radius: 1rem;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+}
+.progress {
+    height: 20px;
+    border-radius: 10px;
+}
+</style>
+{% endblock %}
